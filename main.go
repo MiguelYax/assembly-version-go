@@ -23,6 +23,9 @@ func main ()  {
 			check(err)
 			lg("Change assembly version: " + assemblyVersion + " to " + newAssemblyVersion)
 			lg("Change assembly file version: " + assemblyFileVersion + " to " + newAssemblyFileVersion)
+			 err = writeCurrentTag(newAssemblyVersion, newAssemblyFileVersion, true)
+			check(err)
+			
 			
 		} else {
 			lg("supported modes are: major, minor, build, revision ")
