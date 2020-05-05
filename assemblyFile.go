@@ -4,17 +4,16 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strings"
-
 )
 
 var AssemblyVersionTag string
 var AssemblyFileVersionTag string
 var Content string
-var AssemblyFile string = "AssemblyInfo.cs"
+var AssemblyFilePath string = "Properties/AssemblyInfo.cs"
 
 func getCurrentTag() (string, string, error) {
-	data, err := ioutil.ReadFile(AssemblyFile)
-	if (err == nil) { 
+	data, err := ioutil.ReadFile(AssemblyFilePath)
+	if err == nil {
 		Content = string(data)
 		assemblyVersionRegexp := regexp.MustCompile(`AssemblyVersion\("\d+\.\d+\.\d+\.\d+"\)`)
 		assemblyFileVersionRegexp := regexp.MustCompile(`AssemblyFileVersion\("\d+\.\d+\.\d+\.\d+"\)`)
@@ -23,20 +22,20 @@ func getCurrentTag() (string, string, error) {
 		versionRegex := regexp.MustCompile(`\d+\.\d+\.\d+\.\d+`)
 		assemblyVersion := versionRegex.FindString(AssemblyVersionTag)
 		assemblyFileVersion := versionRegex.FindString(AssemblyFileVersionTag)
-		return assemblyVersion,assemblyFileVersion, nil
+		return assemblyVersion, assemblyFileVersion, nil
 	} else {
 		return "", "", err
 	}
 }
 
-func writeCurrentTag(assemblyVersion string, assemblyFileVersion string, all bool) ( error) {
-		var newAssemblyVersionTag = "AssemblyVersion(\""+ assemblyVersion + "\")"
-		var newAssemblyFileVersionTag = "AssemblyFileVersion(\""+ assemblyFileVersion + "\")"
-		 newContent := strings.Replace(Content, AssemblyVersionTag, newAssemblyVersionTag,1)
-		 newContent = strings.Replace(newContent, AssemblyFileVersionTag, newAssemblyFileVersionTag,1)
+func writeCurrentTag(assemblyVersion string, assemblyFileVersion string, all bool) error {
+	var newAssemblyVersionTag = "AssemblyVersion(\"" + assemblyVersion + "\")"
+	var newAssemblyFileVersionTag = "AssemblyFileVersion(\"" + assemblyFileVersion + "\")"
+	newContent := strings.Replace(Content, AssemblyVersionTag, newAssemblyVersionTag, 1)
+	newContent = strings.Replace(newContent, AssemblyFileVersionTag, newAssemblyFileVersionTag, 1)
 
-		data := []byte(newContent)
-	    err := ioutil.WriteFile(AssemblyFile, data, 0644)
+	data := []byte(newContent)
+	err := ioutil.WriteFile(AssemblyFilePath, data, 0644)
 
-	return  err
+	return err
 }

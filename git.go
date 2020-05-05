@@ -24,17 +24,17 @@ func getChecksum() (string, error) {
 }
 
 func commitAssemblyFile(msg string) error {
-	stdout, err := execute("pull")
-	if err == nil && stdout == updateMsg {
-		stdout, err := execute("add", AssemblyFile)
+	var err error = nil
+	ok := isUpToDate()
+	if ok {
+		stdout, err := execute("add", AssemblyFilePath)
 		if err == nil {
 			lg((stdout))
-			stdout, err := execute("commit", "-m", "\""+msg+"\"")
+			// stdout, err := execute("commit", "-m", "\""+msg+"\"")
 			if err == nil {
 				lg(stdout)
 			}
 		}
-		// }
 	}
 	return err
 }
