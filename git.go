@@ -30,7 +30,7 @@ func commitAssemblyFile(msg string) error {
 		stdout, err := execute("add", AssemblyFilePath)
 		if err == nil {
 			lg((stdout))
-			// stdout, err := execute("commit", "-m", "\""+msg+"\"")
+			stdout, err := execute("commit", "-m", "\""+msg+"\"")
 			if err == nil {
 				lg(stdout)
 			}

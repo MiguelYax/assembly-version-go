@@ -21,18 +21,17 @@ func main() {
 				newAssemblyFileVersion, err := Up(assemblyFileVersion, mode)
 				check(err)
 				err = writeCurrentTag(newAssemblyVersion, newAssemblyFileVersion, all)
-				versionMsg := " Version: " + assemblyVersion + " to " + newAssemblyVersion
-				fileVersionMsg := " File version: " + assemblyFileVersion + " to " + newAssemblyFileVersion
+				versionMsg := "Version: " + assemblyVersion + " to " + newAssemblyVersion
+				fileVersionMsg := "File version: " + assemblyFileVersion + " to " + newAssemblyFileVersion
 				lg(versionMsg)
 				lg(fileVersionMsg)
 				if err == nil {
 					if newAssemblyVersion == newAssemblyFileVersion {
 						commitAssemblyFile(versionMsg)
 					} else {
-						commitAssemblyFile(versionMsg + fileVersionMsg)
+						commitAssemblyFile(versionMsg + " " + fileVersionMsg)
 					}
 				}
-				// commitAssemblyFile()
 			}
 
 		} else {
